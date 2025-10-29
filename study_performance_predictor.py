@@ -30,17 +30,41 @@ print(df.head())
 # ===============================
 # 3. Datenanalyse
 # ===============================
-#TODO
-# Visualisierung
+print("\nStatistische Übersicht:")
+print(df.describe())
 
-#TODO
+print("\nKorrelationen:")
+print(df.corr())
+
+# Visualisierung
+plt.scatter(df["Hours_Studied"], df["Exam_Score"], color="blue")
+plt.title("Einfluss der Lernzeit auf das Prüfungsergebnis")
+plt.xlabel("Stunden gelernt")
+plt.ylabel("Prüfungsergebnis")
+plt.grid(True)
+plt.show()
 
 # ===============================
 # 4. Machine-Learning-Modell
 # ===============================
+X = df[["Hours_Studied", "Sleep_Hours"]]
+y = df["Exam_Score"]
 
-#TODO
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+rmse = mean_squared_error(y_test, y_pred, squared=False)
+
+print("\nModellergebnisse:")
+print(f"RMSE: {rmse:.2f}")
+print(f"Koeffizienten: {model.coef_}")
+print(f"Achsenabschnitt: {model.intercept_}")
 
 # ===============================
 # 5. Fazit
 # ===============================
+print("\nFazit:")
+print("Mehr Lernzeit verbessert das Ergebnis, während zu wenig Schlaf einen negativen Einfluss hat.")
